@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Call-Cat — Temporarily Unavailable</title>
+  <meta name="description" content="Call-Cat is temporarily unavailable. Estimated back by August 30." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+
+  <style>
+    :root {
+      --bg1: 255 255 255;
+      --fg: 28 28 30;
+      --muted: 110 110 115;
+      --accent: 99 102 241; /* Indigo-ish */
+      --card-bg: 255 255 255 / 0.6;
+      --blur: blur(12px);
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.10);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg1: 12 12 14;
+        --fg: 235 235 240;
+        --muted: 160 160 170;
+        --card-bg: 20 20 24 / 0.55;
+        --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      color: rgb(var(--fg));
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(99,102,241,0.15), transparent 60%),
+        radial-gradient(1200px 800px at 90% 90%, rgba(236,72,153,0.18), transparent 60%),
+        rgb(var(--bg1));
+      padding: 24px;
+    }
+
+    .card {
+      width: min(720px, 92vw);
+      padding: clamp(20px, 4vw, 40px);
+      border-radius: var(--radius);
+      background: color-mix(in oklab, white 60%, transparent);
+      -webkit-backdrop-filter: var(--blur);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .brand .logo {
+      width: 40px; height: 40px; display: grid; place-items: center;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.35), transparent 60%),
+                  radial-gradient(circle at 70% 70%, rgba(236,72,153,0.35), transparent 60%),
+                  rgba(255,255,255,0.6);
+      -webkit-backdrop-filter: var(--blur);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow);
+      font-size: 22px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 3.6vw, 40px);
+      line-height: 1.15;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0 0 18px 0;
+      color: rgb(var(--muted));
+      font-size: clamp(14px, 2.2vw, 18px);
+    }
+
+    .status {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(70px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .tile {
+      border: 1px dashed rgba(127,127,127,0.35);
+      border-radius: 16px;
+      padding: 14px 12px;
+      text-align: center;
+      background: var(--card-bg);
+    }
+    .num {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      font-size: clamp(20px, 3vw, 28px);
+      letter-spacing: -0.01em;
+    }
+    .label {
+      font-size: 12px;
+      color: rgb(var(--muted));
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      border: 1px solid rgba(127,127,127,0.25);
+      background: var(--card-bg);
+      font-size: 13px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 999px;
+      background: currentColor;
+      color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 30%, transparent);
+    }
+
+    .footer {
+      margin-top: 24px;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      color: rgb(var(--muted));
+      font-size: 13px;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(127,127,127,0.12);
+      padding: 4px 8px;
+      border-radius: 8px;
+      color: inherit;
+    }
+
+    /* Small screens */
+    @media (max-width: 480px) {
+      .status { grid-template-columns: repeat(2, minmax(90px, 1fr)); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card" role="status" aria-live="polite">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🐱</div>
+      <div>
+        <h1>Call-Cat is temporarily unavailable</h1>
+        <p>We’re doing some maintenance. Estimated return: <strong>August 30</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Countdown tiles -->
+    <section class="status" aria-label="Countdown to availability">
+      <div class="tile"><div class="num" id="d">–</div><div class="label">Days</div></div>
+      <div class="tile"><div class="num" id="h">–</div><div class="label">Hours</div></div>
+      <div class="tile"><div class="num" id="m">–</div><div class="label">Minutes</div></div>
+      <div class="tile"><div class="num" id="s">–</div><div class="label">Seconds</div></div>
+    </section>
+
+    <div class="badge"><span class="dot"></span> Status: offline</div>
+
+    <div class="footer">
+      <span>Questions?</span>
+      <span class="mono">support@call-cat.com</span>
+      <span>•</span>
+      <span class="mono">@callcat</span>
+    </div>
+  </main>
+
+  <script>
+    // Count down to Aug 30, 2025 00:00 Eastern (UTC-4); adjust if needed
+    const target = new Date('2025-08-30T04:00:00Z').getTime();
+    const $ = (id) => document.getElementById(id);
+
+    function tick() {
+      const now = Date.now();
+      let delta = Math.max(0, target - now);
+
+      const days = Math.floor(delta / (1000*60*60*24));
+      delta -= days * (1000*60*60*24);
+      const hours = Math.floor(delta / (1000*60*60));
+      delta -= hours * (1000*60*60);
+      const mins = Math.floor(delta / (1000*60));
+      delta -= mins * (1000*60);
+      const secs = Math.floor(delta / 1000);
+
+      $('d').textContent = days.toString().padStart(2,'0');
+      $('h').textContent = hours.toString().padStart(2,'0');
+      $('m').textContent = mins.toString().padStart(2,'0');
+      $('s').textContent = secs.toString().padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
