@@ -4,66 +4,109 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Call-Cat — Temporarily Unavailable</title>
-  <meta name="description" content="Call-Cat is temporarily unavailable. Estimated back by August 30." />
+  <meta name="description" content="Call-Cat is temporarily unavailable. Expected to be back by Aug 30th! (busy with school!!)"> 
+  <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)">
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
 
   <style>
+    /*
+      Accessibility-first refresh
+      - Colors meet or exceed WCAG AA (4.5:1 for normal text) in both light/dark
+      - Reduced transparency & high-contrast modes respected
+      - Clear focus outlines
+    */
+
     :root {
-      --bg1: 255 255 255;
-      --fg: 28 28 30;
-      --muted: 110 110 115;
-      --accent: 99 102 241; /* Indigo-ish */
-      --card-bg: 255 255 255 / 0.6;
-      --blur: blur(12px);
+      /* LIGHT THEME */
+      --bg: #ffffff;           /* background */
+      --fg: #111111;           /* primary text (≈ 21:1 vs white) */
+      --muted: #44464f;        /* secondary text (≈ 9+:1 vs white) */
+      --accent: #4f46e5;       /* indigo 600 */
+      --accent-rose: #ec4899;  /* rose 500 */
+
+      /* Surfaces */
+      --card-bg: #ffffff;      /* solid for reliable contrast */
+      --tile-bg: #ffffff;      
+      --tile-border: #c7c9d1;  /* subtle but visible */
+
       --radius: 20px;
       --shadow: 0 10px 30px rgba(0,0,0,0.10);
+      --blur: blur(10px);
     }
+
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg1: 12 12 14;
-        --fg: 235 235 240;
-        --muted: 160 160 170;
-        --card-bg: 20 20 24 / 0.55;
+        /* DARK THEME */
+        --bg: #0c0c0e;
+        --fg: #f5f7fa;          /* ≫ 4.5:1 vs dark bg */
+        --muted: #c7c9d1;       /* ≫ 4.5:1 vs dark bg */
+        --accent: #818cf8;      /* indigo 400 for dark */
+        --accent-rose: #f472b6; /* rose 400 */
+
+        --card-bg: #16161a;     
+        --tile-bg: #16161a;
+        --tile-border: #2a2a31;
+
         --shadow: 0 10px 30px rgba(0,0,0,0.35);
+        --blur: blur(8px);
       }
+    }
+
+    /* Respect users who prefer stronger contrast */
+    @media (prefers-contrast: more) {
+      :root { --tile-border: #6b7280; --shadow: none; }
+      .brand .logo { box-shadow: none; }
+    }
+    /* Respect users who prefer reduced transparency */
+    @media (prefers-reduced-transparency: reduce) {
+      :root { --blur: none; }
+      .card, .brand .logo, .badge { backdrop-filter: none; -webkit-backdrop-filter: none; }
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      color: rgb(var(--fg));
+      color: var(--fg);
       font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
       display: grid;
       place-items: center;
       background:
-        radial-gradient(1200px 800px at 10% 10%, rgba(99,102,241,0.15), transparent 60%),
-        radial-gradient(1200px 800px at 90% 90%, rgba(236,72,153,0.18), transparent 60%),
-        rgb(var(--bg1));
+        radial-gradient(1200px 800px at 10% 10%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 60%),
+        radial-gradient(1200px 800px at 90% 90%, color-mix(in srgb, var(--accent-rose) 18%, transparent), transparent 60%),
+        var(--bg);
       padding: 24px;
     }
+
+    /* Fallback if color-mix unsupported */
+    @supports not (color: color-mix(in srgb, white 50%, black 50%)) {
+      body { background: var(--bg); }
+    }
+
+    a { color: var(--fg); }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
     .card {
       width: min(720px, 92vw);
       padding: clamp(20px, 4vw, 40px);
       border-radius: var(--radius);
-      background: color-mix(in oklab, white 60%, transparent);
+      background: var(--card-bg);
       -webkit-backdrop-filter: var(--blur);
       backdrop-filter: var(--blur);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.22);
+      border: 1px solid var(--tile-border);
     }
 
-    .brand {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 8px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
     .brand .logo {
-      width: 40px; height: 40px; display: grid; place-items: center;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.35), transparent 60%),
-                  radial-gradient(circle at 70% 70%, rgba(236,72,153,0.35), transparent 60%),
-                  rgba(255,255,255,0.6);
+      width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 60%),
+        radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--accent-rose) 35%, transparent), transparent 60%),
+        color-mix(in srgb, var(--card-bg) 92%, transparent);
       -webkit-backdrop-filter: var(--blur);
       backdrop-filter: var(--blur);
       box-shadow: var(--shadow);
@@ -76,105 +119,64 @@
       margin: 0 0 8px 0;
       letter-spacing: -0.02em;
     }
-    p {
-      margin: 0 0 18px 0;
-      color: rgb(var(--muted));
-      font-size: clamp(14px, 2.2vw, 18px);
-    }
+    p { margin: 0 0 18px 0; color: var(--muted); font-size: clamp(14px, 2.2vw, 18px); }
 
-    .status {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(70px, 1fr));
-      gap: 12px;
-      margin: 24px 0;
-    }
-    .tile {
-      border: 1px dashed rgba(127,127,127,0.35);
-      border-radius: 16px;
-      padding: 14px 12px;
-      text-align: center;
-      background: var(--card-bg);
-    }
-    .num {
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-      font-size: clamp(20px, 3vw, 28px);
-      letter-spacing: -0.01em;
-    }
-    .label {
-      font-size: 12px;
-      color: rgb(var(--muted));
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-top: 4px;
-    }
+    .status { display: grid; grid-template-columns: repeat(4, minmax(70px, 1fr)); gap: 12px; margin: 24px 0; }
+    .tile { border: 1px dashed var(--tile-border); border-radius: 16px; padding: 14px 12px; text-align: center; background: var(--tile-bg); }
 
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      border-radius: 999px;
-      padding: 8px 12px;
-      border: 1px solid rgba(127,127,127,0.25);
-      background: var(--card-bg);
-      font-size: 13px;
-    }
-    .dot {
-      width: 10px; height: 10px; border-radius: 999px;
-      background: currentColor;
-      color: var(--accent);
-      box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 30%, transparent);
-    }
+    .num { font-variant-numeric: tabular-nums; font-weight: 700; font-size: clamp(20px, 3vw, 28px); letter-spacing: -0.01em; color: var(--fg); }
+    .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
 
-    .footer {
-      margin-top: 24px;
-      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-      color: rgb(var(--muted));
-      font-size: 13px;
-    }
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: rgba(127,127,127,0.12);
-      padding: 4px 8px;
-      border-radius: 8px;
-      color: inherit;
-    }
+    .badge { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 8px 12px; border: 1px solid var(--tile-border); background: var(--tile-bg); font-size: 13px; color: var(--fg); }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: currentColor; color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 30%, transparent); }
+
+    .footer { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; color: var(--muted); font-size: 13px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: color-mix(in srgb, var(--fg) 10%, transparent); padding: 4px 8px; border-radius: 8px; color: inherit; }
 
     /* Small screens */
-    @media (max-width: 480px) {
-      .status { grid-template-columns: repeat(2, minmax(90px, 1fr)); }
+    @media (max-width: 480px) { .status { grid-template-columns: repeat(2, minmax(90px, 1fr)); } }
+
+    /* Windows High Contrast Mode */
+    @media (forced-colors: active) {
+      .card, .tile, .badge { border: 1px solid CanvasText; background: Canvas; }
+      .label, p, .footer, .mono { color: CanvasText; }
+      .dot { background: CanvasText; box-shadow: none; }
+      a:focus-visible { outline: 2px solid Highlight; }
     }
   </style>
 </head>
 
 <body>
-  <main class="card" role="status" aria-live="polite">
+  <main class="card" role="status" aria-live="off">
     <div class="brand">
       <div class="logo" aria-hidden="true">🐱</div>
       <div>
         <h1>Call-Cat is temporarily unavailable</h1>
-        <p>We’re doing some maintenance. Estimated return: <strong>August 30</strong>.</p>
+        <p>Expected to be back by <strong><time datetime="2025-08-30">Aug 30th</time>! (busy with school!!)</strong></p>
       </div>
     </div>
 
-    <!-- Countdown tiles -->
+    <!-- Countdown tiles (static visuals; not announced every second) -->
     <section class="status" aria-label="Countdown to availability">
-      <div class="tile"><div class="num" id="d">–</div><div class="label">Days</div></div>
-      <div class="tile"><div class="num" id="h">–</div><div class="label">Hours</div></div>
-      <div class="tile"><div class="num" id="m">–</div><div class="label">Minutes</div></div>
-      <div class="tile"><div class="num" id="s">–</div><div class="label">Seconds</div></div>
+      <div class="tile" aria-label="Days remaining"><div class="num" id="d">–</div><div class="label">Days</div></div>
+      <div class="tile" aria-label="Hours remaining"><div class="num" id="h">–</div><div class="label">Hours</div></div>
+      <div class="tile" aria-label="Minutes remaining"><div class="num" id="m">–</div><div class="label">Minutes</div></div>
+      <div class="tile" aria-label="Seconds remaining"><div class="num" id="s">–</div><div class="label">Seconds</div></div>
     </section>
 
-    <div class="badge"><span class="dot"></span> Status: offline</div>
+    <div class="badge" aria-live="polite" aria-label="Current status: offline"><span class="dot" aria-hidden="true"></span> Status: offline</div>
 
     <div class="footer">
       <span>Questions?</span>
-      <span class="mono">support@call-cat.com</span>
+      <a class="mono" href="mailto:support@call-cat.com">support@call-cat.com</a>
       <span>•</span>
-      <span class="mono">@callcat</span>
+      <span class="mono" aria-label="Social handle at call cat">@callcat</span>
     </div>
   </main>
 
   <script>
-    // Count down to Aug 30, 2025 00:00 Eastern (UTC-4); adjust if needed
+    // Count down to Aug 30, 2025 00:00 Eastern (UTC-4)
+    // Midnight ET is 04:00:00Z during DST
     const target = new Date('2025-08-30T04:00:00Z').getTime();
     const $ = (id) => document.getElementById(id);
 
@@ -190,12 +192,13 @@
       delta -= mins * (1000*60);
       const secs = Math.floor(delta / 1000);
 
-      $('d').textContent = days.toString().padStart(2,'0');
-      $('h').textContent = hours.toString().padStart(2,'0');
-      $('m').textContent = mins.toString().padStart(2,'0');
-      $('s').textContent = secs.toString().padStart(2,'0');
+      $('d').textContent = String(days).padStart(2,'0');
+      $('h').textContent = String(hours).padStart(2,'0');
+      $('m').textContent = String(mins).padStart(2,'0');
+      $('s').textContent = String(secs).padStart(2,'0');
     }
     tick();
     setInterval(tick, 1000);
   </script>
 </body>
+</html>
